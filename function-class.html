@@ -14,34 +14,54 @@
 
     <script type="text/babel">
 
-      const elementFun = (
-        <h1>
-          This is a functional component.
-        </h1>
-      );
+      class TheView extends React.Component {
+        constructor(props){
+          super(props);
+        }
 
-      function TypeFun() {
-        return elementFun;
-      }
-
-      class TypeCla extends React.Component {
         render() {
           const headStyle = {
             color:"green"
           }
-          return <h1 style={headStyle}>This is a class component.</h1>;
+          
+          return (
+            <div>
+              <h1 style={headStyle}>{this.props.passed[0]}</h1>
+              <h2>I am {this.props.passed[1]}, now a prop.</h2>
+            </div>
+          );
         }
       }
 
       class App extends React.Component {
+        constructor(props){
+          super(props);
+          this.state = {
+            data1:"state thing 1",
+            data2:"state thing 2",
+            data3:"state thing 3"
+          };
+        }
+
         render() {
           return (
             <div>
-              <TypeFun />
-              <TypeCla />
+              {this.props.text}
+              <ul>
+                <li>{this.state.data1}</li>
+                <li>{this.state.data2}</li>
+                <li>{this.state.data3}</li>
+              </ul>
+              <TheView passed={
+                [this.props.text + " Passed through.", this.state.data1]
+              }/>
             </div>
           );
         }
+      }
+
+      App.defaultProps = {
+        text: "I am a default property."
       }
 
       ReactDOM.render(
